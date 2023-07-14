@@ -15,7 +15,7 @@ const Home = props => {
           Find The Job That <br />
           Fits Your Life
         </h1>
-        <p>millions</p>
+        <p>Millions of people are searching for jobs</p>
         <Link to="/jobs">
           <button type="button" onClick={onClickFindJobs}>
             Find Jobs

@@ -76,7 +76,7 @@ class LoginForm extends Component {
           <label htmlFor="password">PASSWORD</label>
           <br />
           <input
-            type="text"
+            type="password"
             value={password}
             placeholder="password"
             id="password"

@@ -17,7 +17,7 @@ const apiStatusConstants = {
 class AboutJob extends Component {
   state = {
     jobDataDetails: [],
-    similarJobDataDetails: [],
+    similarJobData: [],
     apiStatus: apiStatusConstants.initial,
   }
 
@@ -32,7 +32,7 @@ class AboutJob extends Component {
 
     this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
-    const jobDetailsApiUrl = 'https://apis.ccbp.in/jobs/:id'
+    const jobDetailsApiUrl = `https://apis.ccbp.in/jobs/${id}`
     const options = {
       headers: {Authorization: `Bearer ${jwtToken}`},
       method: 'GET',
@@ -54,8 +54,8 @@ class AboutJob extends Component {
         packagePerAnnum: eachItem.package_per_annum,
         rating: eachItem.rating,
         skills: eachItem.skills.map(eachSkill => ({
-          imageUrl: eachItem.image_url,
-          name: eachItem.name,
+          imageUrl: eachSkill.image_url,
+          name: eachSkill.name,
         })),
         title: eachItem.title,
       }))
@@ -73,7 +73,7 @@ class AboutJob extends Component {
       )
       this.setState({
         jobDataDetails: updatedData,
-        similarJobDataDetails: updatedSimilarJobDetails,
+        similarJobData: updatedSimilarJobDetails,
         apiStatus: apiStatusConstants.success,
       })
     } else {
@@ -82,12 +82,13 @@ class AboutJob extends Component {
   }
 
   renderSuccessView = () => {
-    const {jobDataDetails, similarJobDataDetails} = this.state
+    const {jobDataDetails, similarJobData} = this.state
     if (jobDataDetails.length >= 1) {
       const {
         companyLogoUrl,
         companyWebsiteUrl,
         employmentType,
+
         id,
         jobDescription,
         lifeAtCompany,
@@ -155,7 +156,7 @@ class AboutJob extends Component {
           </div>
           <h1>Similar Jobs</h1>
           <ul className="similar-jobs-container">
-            {SimilarJobs.map(eachItem => (
+            {similarJobData.map(eachItem => (
               <SimilarJobs
                 key={eachItem.id}
                 similarJobData={eachItem}
@@ -179,7 +180,7 @@ class AboutJob extends Component {
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt=" failure view"
       />
-      <h1>Opps! Smething Went Wrong</h1>
+      <h1>Oops! Something Went Wrong</h1>
       <p>we cannot seem to find the page you are looking for.</p>
       <div className="button-container">
         <button type="button" onClick={this.onRetryJobDetailsAgain}>
